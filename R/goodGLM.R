@@ -87,34 +87,34 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
 
 
   # Calculate the GOF test statistic ---
-  invCovMatObject <- inverse_cov(mod = mod, G = G)
-  invCovMat <- invCovMatObject$matrix
-  df <- invCovMatObject$rank
-  chisq <- t(raw_resids) %*% invCovMat %*% raw_resids
+  inv_cov_mat_obj <- inverse_cov(mod = mod, G = G)
+  inv_cov_mat <- inv_cov_mat_obj$matrix
+  df <- inv_cov_mat_obj$rank
+  chisq <- t(raw_resids) %*% inv_cov_mat %*% raw_resids
   P <- 1 - stats::pchisq(chisq, df)
 
 
   # Create a table for output ---
-  groupedVar <- G %*% vars
-  pear <- (counts[1:groups] - counts[(groups + 1):(2 * groups)])/sqrt(groupedVar)
-  countsTable <- cbind(counts, pear)
-  colnames(countsTable)[3] <- 'pear'
+  grouped_var <- G %*% vars
+  pear <- (counts[1:groups] - counts[(groups + 1):(2 * groups)])/sqrt(grouped_var)
+  counts_table <- cbind(counts, pear)
+  colnames(counts_table)[3] <- 'pear'
 
-  if (any(as.numeric(groupedVar) < 5) & warnings)
-    warning("Some groups might contain too few observations. Try using a smaller number of groups.")
+  if (any(as.numeric(grouped_var) < 5) & warnings)
+    warning("Some groups might not contain enough observations. Try using a smaller number of groups.")
 
 
   # Return object ---
   return(structure(list(
-    method = paste0("GHL test with ", groups, " groups."),
-    data.name = deparse(substitute(mod)), # Gives a string
+    method = paste0("Generalized Hosmer-Lemeshow (GHL) test with ", groups, " groups."),
+    data_name = deparse(substitute(mod)), # Gives a string
     statistic = c(X2 = chisq),
     parameter = c(df = df),
-    p.value = P,
+    p_value = P,
     cutpoints = cutpoints,
-    countsTable = countsTable,
+    counts_table = counts_table,
     G = G,
-    groupedVar = groupedVar,
+    grouped_var = grouped_var,
     raw_resids = raw_resids
   ), class = 'htest')) # Hypothesis test class
 }
