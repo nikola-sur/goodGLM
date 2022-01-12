@@ -12,7 +12,7 @@ equal_var_cut <- function(pred_ord, groups, weights_ord) {
   pred_ordC <- as.numeric(table(pred_ord)) # Counts for each pred
   weights_ordU <- weights_ord[!duplicated(pred_ord)] # Same length as pred_ordU
 
-  if (length(pred_ordU) < ggroups) {
+  if (length(pred_ordU) < groups) {
     stop("Please choose a smaller group number (not enough data points).")
   }
 

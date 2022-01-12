@@ -9,8 +9,8 @@
 inverse_cov <- function(mod, G) {
   # Get dispersion parameter and variance of observations
   mu_hat <- mod$fitted.values
-  phi <- summary(mod)$dispersion
-  vars <- family(mod)$variance(mu_hat) * phi
+  phi <- stats::summary.glm(mod)$dispersion
+  vars <- stats::family(mod)$variance(mu_hat) * phi
 
   V_sqrt <- diag(sqrt(vars))
   H <- hat_mat(mod = mod)

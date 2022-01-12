@@ -9,7 +9,7 @@ Calculate the hat matrix for a GLM object.
 hat_mat(mod)
 }
 \arguments{
-\item{mod}{}
+\item{mod}{GLM object.}
 }
 \value{
 

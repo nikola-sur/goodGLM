@@ -54,7 +54,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   mu_hat_ord <- mu_hat[order(mu_hat)]
 
   # Get dispersion parameter and variance of observations
-  phi <- stats::summary(mod)$dispersion
+  phi <- stats::summary.glm(mod)$dispersion
   vars <- stats::family(mod)$variance(mu_hat) * phi
   vars_ord <- vars[order(mu_hat)]
 
