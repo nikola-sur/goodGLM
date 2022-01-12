@@ -8,6 +8,8 @@ To install this package, type:
  devtools::install_github('https://github.com/nikola-sur/goodGLM/')
  ```
  
+ If you don't have 'devtools' installed, when asked if you would like to install from source, select "no" (it will be faster).
+ 
 # Example usage
 First, we prepare some artificial data.
 ``` r
