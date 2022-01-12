@@ -4,7 +4,6 @@
  ``` r
  # install.packages('devtools')
  devtools::install_github('https://github.com/nikola-sur/goodGLM/')
- library(goodGLM)
  ```
  
  # Example usage
