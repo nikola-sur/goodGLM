@@ -48,6 +48,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   # Extract data ---
   y <- mod$y # Observed proportions, or T and F
   mu_hat <- mod$fitted.values
+  sample_size <- length(mu_hat)
 
   y_ord <- y[order(mu_hat)]
   mu_hat_ord <- mu_hat[order(mu_hat)]
@@ -69,21 +70,19 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
 
   # Create contingency tables ---
   counts = stats::xtabs(formula = cbind(y_ord, mu_hat_ord) ~ interval)
+  G <- matrix(NA, nrow = groups, ncol = sample_size)
 
-  sampleSize <- length(mu_hat)
-  G <- matrix(NA, nrow = groups, ncol = sampleSize)
-
-  intervalUnO <- cut(mu_hat, cutpoints, include.lowest = TRUE)
+  interval_unord <- cut(x = mu_hat, breaks = cutpoints, include.lowest = TRUE)
   rawResids <- vector(mode = 'numeric', length = groups)
 
   for (gg in (1:groups)) {
     # Find the residuals that we are summing
-    indTemp <- which(intervalUnO == levels(interval)[gg])
-    a <- rep(0,sampleSize)
-    a[indTemp] <- 1
+    ind_temp <- which(interval_unord == levels(interval)[gg])
+    a <- rep(0, sample_size)
+    a[ind_temp] <- 1
     G[gg, ] <- a
 
-    rawResids[gg] <- 1/sqrt(sampleSize) * (counts[gg] - counts[gropus + gg])
+    rawResids[gg] <- 1/sqrt(sample_size) * (counts[gg] - counts[gropus + gg])
   }
 
 
