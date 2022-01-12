@@ -9,14 +9,18 @@ To install this package, type:
  ```
  
 # Example usage
+First, we prepare some artificial data.
 ``` r
-library(goodGLM)
-
 n <- 100L
 x <- runif(n, 0, 1)
 y <- rpois(n, .., ..)
+```
+
+Then, we fit a GLM and perform the goodness-of-fit test!
+``` r
 mod <- glm(y ~ x, family = poisson(link = 'log'))
 
+library(goodGLM)
 gof_output <- goodGLM(mod, groups = 10L, group_mode = ..)
 gof_output
 ```
