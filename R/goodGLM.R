@@ -101,7 +101,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance", print_warnings =
   counts_table <- cbind(counts, pear)
   colnames(counts_table)[3] <- 'pear'
 
-  if (any(as.numeric(grouped_var) < 5) & warnings)
+  if (any(as.numeric(grouped_var) < 5) & print_warnings)
     warning("Some groups might not contain enough observations. Try using a smaller number of groups.")
 
 
@@ -110,7 +110,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance", print_warnings =
     method = paste0("Generalized Hosmer-Lemeshow (GHL) test with ", groups, " groups."),
     data_name = deparse(substitute(mod)), # Gives a string
     statistic = c(chisq = chisq),
-    parameter = c(df = df),
+    df = c(df = df),
     p_value = p_value,
     cutpoints = cutpoints,
     counts_table = counts_table,
