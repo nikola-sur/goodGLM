@@ -19,7 +19,7 @@ inverse_cov <- function(mod, G) {
   GV_sqrt <- G %*% V_sqrt
 
   Omega_hat <- 1/n * GV_sqrt %*% (I - H) %*% t(GV_sqrt)
-  Omega_hat_inv <- MASS::ginv(Omega_hat) # Moore-Penrose inverse (see Moore 1977)
+  Omega_hat_inv <- MASS::ginv(Omega_hat) # Moore-Penrose inverse
 
   matrix_rank <- Matrix::rankMatrix(Omega_hat_inv)[[1]]
 

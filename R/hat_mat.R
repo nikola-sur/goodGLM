@@ -12,18 +12,13 @@ hat_mat <- function(mod) {
   # The dispersion parameter is not necessary (it cancels out in the hat matrix equation)
   phi <- stats::summary.glm(mod)$dispersion
 
-  # Get partial mu / partial eta
-  mu_eta <- stats::family(mod)$mu.eta(eta)
-
-  # Get variances
-  vars <- stats::family(mod)$variance(mu) * phi
-
+  mu_eta <- stats::family(mod)$mu.eta(eta) # Get partial mu / partial eta
+  vars <- stats::family(mod)$variance(mu) * phi # Get variances
   Wsqrt <- diag(mu_eta/sqrt(vars))
   X <- stats::model.matrix(mod)
 
-  # Get hat matrix
   WsqrtX <- Wsqrt %*% X
-  H <- WsqrtX %*% solve(t(WsqrtX) %*% WsqrtX, t(WsqrtX))
+  H <- WsqrtX %*% solve(t(WsqrtX) %*% WsqrtX, t(WsqrtX)) # Get hat matrix
 
   return(H)
 }
