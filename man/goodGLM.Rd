@@ -8,17 +8,23 @@ based on a generalization of the Hosmer-Lemeshow test. For more information,
 see the two papers by Surjanovic, Lockhart, and Loughin (2020) and
 Surjanovic and Loughin (2021).}
 \usage{
-goodGLM(mod, groups, group_mode)
+goodGLM(mod, groups = 10L, group_mode = "variance")
 }
 \arguments{
 \item{mod}{GLM object.}
 
-\item{groups}{Number of groups.}
+\item{groups}{Number of groups. Defaults to 10 (as in the original Hosmer-Lemeshow test).}
 
-\item{group_mode}{Group mode.}
+\item{group_mode}{Group mode. One of "trials" or "variance", which groups observations
+so that the number of trials or the variance of the observations is approximately equal
+in each group. Defaults to "variance".}
 }
 \value{
-
+#'
+Some parts of this code are based on
+http://www.chrisbilder.com/categorical/Chapter5/AllGOFTests.R by Tom Loughin
+Modified by Nikola Surjanovic.
+Previous comment from 'AllGOFTests.R':
 }
 \description{
 Generalized Hosmer-Lemeshow Test for GLMs

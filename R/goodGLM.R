@@ -11,8 +11,7 @@
 #' in each group. Defaults to "variance".
 #'
 #' @return
-#' @export
-#'
+#' #'
 #' Some parts of this code are based on
 #' http://www.chrisbilder.com/categorical/Chapter5/AllGOFTests.R by Tom Loughin
 #' Modified by Nikola Surjanovic.
@@ -30,6 +29,7 @@
 
 # Adapted from program published by Ken Kleinman as Exmaple 8.8 on the SAS and R blog, sas-and-r.blogspot.ca
 #  Assumes data are aggregated into Explanatory Variable Pattern form.
+#' @export
 goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   # Input checks ---
   # Are we providing the right type of object
@@ -53,37 +53,37 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   mu_hat_ord <- mu_hat[order(mu_hat)]
 
   # Get dispersion parameter and variance of observations
-  phi <- summary(mod)$dispersion
-  vars <- family(mod)$variance(mu_hat) * phi
+  phi <- stats::summary(mod)$dispersion
+  vars <- stats::family(mod)$variance(mu_hat) * phi
   vars_ord <- vars[order(mu_hat)]
 
 
   # Create cutpoints ---
   if (group_mode == "variance") {
-    cutpoints <- equalVarCut(pred.o = mu_hat_ord, g=g, weights.o = vars_ord)
+    cutpoints <- equal_var_cut(pred_ord = mu_hat_ord, groups = groups, weights_ord = vars_ord)
   } else if (group_mode == "trials") {
-    cutpoints <- quantile(mu_hat_ord, 0:g/g)
+    cutpoints <- stats::quantile(x = mu_hat_ord, probs = (0:groups)/groups)
   }
   interval <- cut(mu_hat_ord, cutpoints, include.lowest = TRUE)
 
 
   # Create contingency tables ---
-  counts = xtabs(formula = cbind(y_ord, mu_hat_ord) ~ interval)
+  counts = stats::xtabs(formula = cbind(y_ord, mu_hat_ord) ~ interval)
 
   sampleSize <- length(mu_hat)
-  G <- matrix(NA, nrow=g, ncol=sampleSize)
+  G <- matrix(NA, nrow = groups, ncol = sampleSize)
 
   intervalUnO <- cut(mu_hat, cutpoints, include.lowest = TRUE)
-  rawResids <- vector(mode='numeric',length=g)
+  rawResids <- vector(mode = 'numeric', length = groups)
 
-  for (gg in (1:g)) {
+  for (gg in (1:groups)) {
     # Find the residuals that we are summing
-    indTemp <- which(intervalUnO==levels(interval)[gg])
+    indTemp <- which(intervalUnO == levels(interval)[gg])
     a <- rep(0,sampleSize)
     a[indTemp] <- 1
     G[gg, ] <- a
 
-    rawResids[gg] <- 1/sqrt(sampleSize) * (counts[gg] - counts[g+gg])
+    rawResids[gg] <- 1/sqrt(sampleSize) * (counts[gg] - counts[gropus + gg])
   }
 
 
@@ -92,12 +92,12 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   invCovMat <- invCovMatObject$matrix
   df <- invCovMatObject$rank
   chisq <- t(rawResids) %*% invCovMat %*% rawResids
-  P <- 1 - pchisq(chisq, df)
+  P <- 1 - stats::pchisq(chisq, df)
 
 
   # Create a table for output ---
   groupedVar <- G %*% vars
-  pear <- (counts[1:g] - counts[(g+1):(2*g)])/sqrt(groupedVar)
+  pear <- (counts[1:groups] - counts[(groups + 1):(2 * groups)])/sqrt(groupedVar)
   countsTable <- cbind(counts, pear)
   colnames(countsTable)[3] <- 'pear'
 
@@ -107,7 +107,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
 
   # Return object ---
   return(structure(list(
-    method = paste0("GHL test with ", g, " groups."),
+    method = paste0("GHL test with ", groups, " groups."),
     data.name = deparse(substitute(mod)), # Gives a string
     statistic = c(X2 = chisq),
     parameter = c(df = df),
