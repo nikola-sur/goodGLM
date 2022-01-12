@@ -1,13 +1,13 @@
 Package: goodGLM
-Title: What the Package Does (One Line, Title Case)
+Title: Generalized Hosmer-Lemeshow Test
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Nikola",
+           family = "Surjanovic",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "nikola.surjanovic@stat.ubc.ca",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: A generalized Hosmer-Lemeshow goodness-of-fit test for a variety of generalized linear models (GLMs)
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
