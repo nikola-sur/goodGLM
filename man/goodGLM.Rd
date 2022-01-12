@@ -8,7 +8,7 @@ based on a generalization of the Hosmer-Lemeshow test. For more information,
 see the two papers by Surjanovic, Lockhart, and Loughin (2020) and
 Surjanovic and Loughin (2021).}
 \usage{
-goodGLM(mod, groups = 10L, group_mode = "variance")
+goodGLM(mod, groups = 10L, group_mode = "variance", print_warnings = TRUE)
 }
 \arguments{
 \item{mod}{GLM object.}
@@ -18,6 +18,8 @@ goodGLM(mod, groups = 10L, group_mode = "variance")
 \item{group_mode}{Group mode. One of "trials" or "variance", which groups observations
 so that the number of trials or the variance of the observations is approximately equal
 in each group. Defaults to "variance".}
+
+\item{print_warnings}{Boolean. whether to display warnings.}
 }
 \value{
 #'

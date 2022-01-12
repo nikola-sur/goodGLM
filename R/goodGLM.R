@@ -9,6 +9,7 @@
 #' @param group_mode Group mode. One of "trials" or "variance", which groups observations
 #' so that the number of trials or the variance of the observations is approximately equal
 #' in each group. Defaults to "variance".
+#' @param print_warnings Boolean. whether to display warnings.
 #'
 #' @return
 #' #'
@@ -30,7 +31,7 @@
 # Adapted from program published by Ken Kleinman as Exmaple 8.8 on the SAS and R blog, sas-and-r.blogspot.ca
 #  Assumes data are aggregated into Explanatory Variable Pattern form.
 #' @export
-goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
+goodGLM <- function(mod, groups = 10L, group_mode = "variance", print_warnings = TRUE) {
   # Input checks ---
   # Are we providing the right type of object
   stopifnot("glm" %in% class(mod))
@@ -91,7 +92,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   inv_cov_mat <- inv_cov_mat_obj$matrix
   df <- inv_cov_mat_obj$rank
   chisq <- t(raw_resids) %*% inv_cov_mat %*% raw_resids
-  P <- 1 - stats::pchisq(chisq, df)
+  p_value <- 1 - stats::pchisq(chisq, df)
 
 
   # Create a table for output ---
@@ -108,9 +109,9 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   return(structure(list(
     method = paste0("Generalized Hosmer-Lemeshow (GHL) test with ", groups, " groups."),
     data_name = deparse(substitute(mod)), # Gives a string
-    statistic = c(X2 = chisq),
+    statistic = c(chisq = chisq),
     parameter = c(df = df),
-    p_value = P,
+    p_value = p_value,
     cutpoints = cutpoints,
     counts_table = counts_table,
     G = G,
