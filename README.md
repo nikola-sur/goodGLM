@@ -12,16 +12,20 @@ To install this package, type:
 First, we prepare some artificial data.
 ``` r
 n <- 100L
+b0 <- 1.0
+b1 <- 0.1
+
 x <- runif(n, 0, 1)
-y <- rpois(n, .., ..)
+mu <- exp(b0 + b1*x)
+y <- rpois(n, lambda = mu)
 ```
 
-Then, we fit a GLM and perform the goodness-of-fit test!
+We then fit a GLM and perform the goodness-of-fit test!
 ``` r
 mod <- glm(y ~ x, family = poisson(link = 'log'))
 
 library(goodGLM)
-gof_output <- goodGLM(mod, groups = 10L, group_mode = ..)
+gof_output <- goodGLM(mod, groups = 10L, group_mode = "variance")
 gof_output
 ```
 
