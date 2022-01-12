@@ -18,4 +18,5 @@ Imports:
     MASS,
     Matrix,
     spatstat,
+    spatstat.geom,
     stats

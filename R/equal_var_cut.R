@@ -21,7 +21,7 @@ equal_var_cut <- function(pred_ord, groups, weights_ord) {
   cutpoints[groups + 1] <- pred_ordU[length(pred_ordU)] # Maximum
 
   for (gg in 2:groups) {
-    cutpoints[groups - gg + 2] <- spatstat::weighted.quantile(x = pred_ordU,
+    cutpoints[groups - gg + 2] <- spatstat.geom::weighted.quantile(x = pred_ordU,
                                                               w = weights_ordU*pred_ordC,
                                                               probs = (groups - gg + 1)/(groups - gg + 2))
     rm_ind <- pred_ordU < cutpoints[groups - gg + 2]
