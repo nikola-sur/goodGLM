@@ -73,7 +73,7 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
   G <- matrix(NA, nrow = groups, ncol = sample_size)
 
   interval_unord <- cut(x = mu_hat, breaks = cutpoints, include.lowest = TRUE)
-  rawResids <- vector(mode = 'numeric', length = groups)
+  raw_resids <- vector(mode = 'numeric', length = groups)
 
   for (gg in (1:groups)) {
     # Find the residuals that we are summing
@@ -82,15 +82,15 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
     a[ind_temp] <- 1
     G[gg, ] <- a
 
-    rawResids[gg] <- 1/sqrt(sample_size) * (counts[gg] - counts[gropus + gg])
+    raw_resids[gg] <- 1/sqrt(sample_size) * (counts[gg] - counts[groups + gg])
   }
 
 
   # Calculate the GOF test statistic ---
-  invCovMatObject <- CalculateGroupedResidualInvCovMatHHGeneralized(mod, G)
+  invCovMatObject <- inverse_cov(mod = mod, G = G)
   invCovMat <- invCovMatObject$matrix
   df <- invCovMatObject$rank
-  chisq <- t(rawResids) %*% invCovMat %*% rawResids
+  chisq <- t(raw_resids) %*% invCovMat %*% raw_resids
   P <- 1 - stats::pchisq(chisq, df)
 
 
@@ -115,6 +115,6 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance") {
     countsTable = countsTable,
     G = G,
     groupedVar = groupedVar,
-    rawResids = rawResids
+    raw_resids = raw_resids
   ), class = 'htest')) # Hypothesis test class
 }
