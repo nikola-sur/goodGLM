@@ -104,6 +104,8 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance", print_warnings =
   if (any(as.numeric(grouped_var) < 5) & print_warnings)
     warning("Some groups might not contain enough observations. Try using a smaller number of groups.")
 
+  parameters = df
+  names(parameters) = "df"
 
   # Return object ---
   return(structure(list(
@@ -111,11 +113,12 @@ goodGLM <- function(mod, groups = 10L, group_mode = "variance", print_warnings =
     data_name = deparse(substitute(mod)), # Gives a string
     statistic = c(chisq = chisq),
     df = c(df = df),
-    p_value = p_value,
+    p.value = p_value,
     cutpoints = cutpoints,
     counts_table = counts_table,
     G = G,
     grouped_var = grouped_var,
-    raw_resids = raw_resids
+    raw_resids = raw_resids,
+    parameters = parameters
   ), class = 'htest')) # Hypothesis test class
 }
