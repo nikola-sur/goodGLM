@@ -1,4 +1,4 @@
- A generalized Hosmer-Lemeshow (GHL) goodness-of-fit test for a variety of generalized linear models (GLMs).
+ A generalized Hosmer-Lemeshow (GHL) goodness-of-fit test for a family of generalized linear models (GLMs).
  
 # Installation
 To install this package, type:
