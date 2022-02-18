@@ -32,7 +32,20 @@ gof_output
 ```
 
 # Citation
-If you use this package, consider citing one of our two papers on the GHL test:
+If you use this package, please consider citing the package
+
+```
+@software{goodGLM_2022,
+author = {Nikola, Surjanovic and Richard, Lockhart and Thomas, Loughin},
+month = {2},
+title = {{'goodGLM': A generalized Hosmer-Lemeshow goodness-of-fit test for a family of generalized linear models}},
+url = {https://github.com/nikola-sur/goodGLM},
+version = {0.0.0.9},
+year = {2022}
+}
+```
+
+and/or one of our two papers on the GHL test:
 
 ```
 @article{surjanovic2020generalized,
